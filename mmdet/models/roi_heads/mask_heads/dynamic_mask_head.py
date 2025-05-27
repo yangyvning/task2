@@ -160,7 +160,7 @@ class DynamicMaskHead(FCNMaskHead):
             loss_mask = self.loss_mask(
                 mask_preds[torch.arange(num_pos).long(), pos_labels,
                            ...].sigmoid(),
-                mask_targets,
-                avg_factor=avg_factor)
+                mask_targets)
         loss['loss_mask'] = loss_mask
         return dict(loss_mask=loss, mask_targets=mask_targets)
+
