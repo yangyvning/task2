@@ -11,8 +11,6 @@ _base_ = [
 dataset_type = 'CocoDataset'
 data_root = 'data/VOCdevkit/'
 
-load_from = 'work_dirs/sparse_rcnn_r50_voc_coco/epoch_24.pth'
-
 # VOC 20 类别
 classes = (
     'aeroplane','bicycle','bird','boat','bottle',
@@ -35,8 +33,6 @@ test_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='Resize', scale=(1000,600), keep_ratio=True),
     #dict(type='LoadAnnotations', with_bbox=True),
-    dict(type='RandomFlip', prob=0.0),
-
     dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
     dict(type='PackDetInputs')
 ]
@@ -68,18 +64,20 @@ val_dataloader = dict(
 )
 
 test_dataloader = val_dataloader
+
 # 覆盖 num_classes 为 20
+#model = dict(
+ #   roi_head=dict(
+ #       bbox_head=[
+  #          dict(type='DIIHead', num_classes=20)
+    #        for _ in range(6)
+   #     ]
+   # )
+#)
 
 
-model = dict(
-    roi_head=dict(
-        bbox_head=[
-            dict(type='DIIHead', num_classes=20) for _ in range(6)
-        ],
-        mask_head=dict(num_classes=20)
-    )
-)
-
+model = dict(roi_head=dict(bbox_head=dict(num_classes=20),
+                           mask_head=dict(num_classes=20)))
 # Evaluator
 val_evaluator = dict(
     type='CocoMetric',

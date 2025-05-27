@@ -1,4 +1,3 @@
-# 可视化对比脚本（visualize_comparison.py）
 import os
 import mmcv
 import numpy as np
@@ -14,13 +13,14 @@ mask_rcnn_checkpoint = 'work_dirs/mask_rcnn_r50_voc_coco/epoch_12.pth'  # 假设
 
 # Sparse R-CNN配置文件和权重路径（需确保版本兼容）
 sparse_rcnn_config = 'configs/my_experiments/sparse_rcnn_r50_voc_coco.py'
-sparse_rcnn_checkpoint = 'work_dirs/sparse_rcnn_r50_voc_coco/epoch_24.pth'
+sparse_rcnn_checkpoint ='work_dirs\sparse_rcnn_r50_voc_coco/r50_300pro_3x_model.pth'
 
 # 测试图像路径（从VOC测试集选取4张）
 test_img_dir = 'data\VOCdevkit\VOC2007\JPEGImages'
 img_list = ['000001.jpg', '000002.jpg', '000003.jpg', '000007.jpg']
 
-
+img_list = ['t1.jpg', 't2.jpg', 't3.jpg']
+test_img_dir = 'data\VOCdevkit'
 # 输出可视化目录
 output_dir = 'work_dirs/visualization/'
 os.makedirs(output_dir, exist_ok=True)
@@ -94,12 +94,12 @@ for img_name in img_list:
     # Mask R-CNN最终结果单独
     mask_final = visualize_results(mask_rcnn_model, img_path, show_proposals=False)
     # Sparse R-CNN结果
-    sparse_img = visualize_results(sparse_rcnn_model, img_path, model_type='sparse_rcnn')
+sparse_img = visualize_results(sparse_rcnn_model, img_path, model_type='sparse_rcnn')
 
     # 横向拼接对比
-    combined = np.concatenate([mask_img, mask_final, sparse_img], axis=1)
+combined = np.concatenate([mask_img, mask_final, sparse_img], axis=1)
 
     # 保存结果
-    output_path = os.path.join(output_dir, f'compare_{img_name}')
-    plt.imsave(output_path, combined)
-    print(f'可视化结果已保存至：{output_path}')
+output_path = os.path.join(output_dir, f'compare_{img_name}')
+plt.imsave(output_path, combined)
+print(f'可视化结果已保存至：{output_path}')
