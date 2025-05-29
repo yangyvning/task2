@@ -22,7 +22,7 @@ param_scheduler = [
 #    optimizer=dict(type='SGD', lr=0.02, momentum=0.9, weight_decay=0.0001))
 optim_wrapper = dict(
     type='OptimWrapper',
-    optimizer=dict(type='AdamW', lr=1e-4, weight_decay=0.0001),
+    optimizer=dict(type='AdamW', lr=1e-3, weight_decay=0.0001),
     clip_grad=dict(max_norm=1.0, norm_type=2)
 )
 
